@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.Concrete.Dtos;
@@ -18,37 +20,38 @@ namespace Business.Concrete
             _iCarDal = carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
             if (car.Description.Length<2)
             {
-                throw new Exception("açıklama 2 karakterden uzun olmalıdır.");
+                return new ErrorResult(Messages.InsufficientDescription);
             }
             if (car.DailyPrice<=0)
             {
-                throw new Exception("günlük fiyat 0 dan büyük olmalıdır.");
+                return new ErrorResult(Messages.WrongPrice);
             }
             _iCarDal.Add(car);
+            return new SuccessResult(Messages.CarsAdded);
         }
 
-        public List<Car> GetAll()
+        public IDataResult<List<Car>> GetAll()
         {
-            return _iCarDal.GetAll();
+            return new SuccessDataResult<List<Car>>( _iCarDal.GetAll(),Messages.CarsListed);
         }
 
-        public List<CarDetailDto> GetAllCarDetails()
+        public IDataResult<List<CarDetailDto>> GetAllCarDetails()
         {
-            return _iCarDal.GetAllCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>( _iCarDal.GetAllCarDetails(),Messages.CarsListed);
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return _iCarDal.GetAll(x => x.BrandId == brandId);
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(x => x.BrandId == brandId), Messages.CarsListed); 
         }
 
-        public List<Car> GetCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return _iCarDal.GetAll(x => x.ColorId == colorId);
+            return new SuccessDataResult<List<Car>>(_iCarDal.GetAll(x => x.ColorId == colorId), Messages.CarsListed);
         }
     }
 }

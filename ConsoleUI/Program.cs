@@ -23,39 +23,62 @@ static void Draw()
 static void ListCars()
 {
     CarManager carManager = new CarManager(new EfCarDal());
-    List<Car> cars = carManager.GetAll();
-    foreach (var car in cars)
+    var result= carManager.GetAll();
+    if (result.Success)
     {
-        Console.WriteLine(car.Description);
-    }
+        foreach (var car in result.Data)
+        {
+            Console.WriteLine(car.Description);
+        }
+    }    
 }
 
 static void ListColors()
 {
     ColorManager colorManager = new ColorManager(new EfColorDal());
-    List<Color> colors = colorManager.GetAll();
-    foreach (var color in colors)
+    var result = colorManager.GetAll();
+    if (result.Success)
     {
-        Console.WriteLine(color.Name);
+        foreach (var color in result.Data)
+        {
+            Console.WriteLine(color.Name);
+        }
     }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
+    
 }
 
 static void ListBrands()
 {
     BrandManager brandManager = new BrandManager(new EfBrandDal());
-    List<Brand> brands = brandManager.GetAll();
-    foreach (var brand in brands)
+    var result = brandManager.GetAll();
+    if (result.Success)
     {
-        Console.WriteLine(brand.Name);
+        foreach (var brand in result.Data)
+        {
+            Console.WriteLine(brand.Name);
+        }
     }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
+    
 }
 
 static void ListCarDetails()
 {
     CarManager carManager = new CarManager(new EfCarDal());
-    List<CarDetailDto> cars = carManager.GetAllCarDetails();
-    foreach (var car in cars)
+    var result= carManager.GetAllCarDetails();
+    if (result.Success)
     {
-        Console.WriteLine("ID:{0} | DESCRIPTION:{1} | BRAND:{2} | COLOR:{3} | DAILYPRICE:{4}", car.Id, car.Description, car.BrandName, car.ColorName, car.DailyPrice);
+        foreach (var car in result.Data)
+        {
+            Console.WriteLine("ID:{0} | DESCRIPTION:{1} | BRAND:{2} | COLOR:{3} | DAILYPRICE:{4}", car.Id, car.Description, car.BrandName, car.ColorName, car.DailyPrice);
+        }
     }
+    
 }
