@@ -16,6 +16,9 @@ Draw();
 ListCarDetails();
 Draw();
 
+CarRent();
+Draw();
+
 static void Draw()
 {
     Console.WriteLine("---------------------------------------------------------------------------------------------------------------------");
@@ -23,14 +26,14 @@ static void Draw()
 static void ListCars()
 {
     CarManager carManager = new CarManager(new EfCarDal());
-    var result= carManager.GetAll();
+    var result = carManager.GetAll();
     if (result.Success)
     {
         foreach (var car in result.Data)
         {
             Console.WriteLine(car.Description);
         }
-    }    
+    }
 }
 
 static void ListColors()
@@ -48,7 +51,7 @@ static void ListColors()
     {
         Console.WriteLine(result.Message);
     }
-    
+
 }
 
 static void ListBrands()
@@ -66,13 +69,12 @@ static void ListBrands()
     {
         Console.WriteLine(result.Message);
     }
-    
 }
 
 static void ListCarDetails()
 {
     CarManager carManager = new CarManager(new EfCarDal());
-    var result= carManager.GetAllCarDetails();
+    var result = carManager.GetAllCarDetails();
     if (result.Success)
     {
         foreach (var car in result.Data)
@@ -80,5 +82,12 @@ static void ListCarDetails()
             Console.WriteLine("ID:{0} | DESCRIPTION:{1} | BRAND:{2} | COLOR:{3} | DAILYPRICE:{4}", car.Id, car.Description, car.BrandName, car.ColorName, car.DailyPrice);
         }
     }
-    
+}
+
+static void CarRent()
+{
+    RentalManager rentalManager = new RentalManager(new EfRentalDal());
+    Rental rental = new Rental() { CarId = 1, CustomerId = 1, RentDate = DateTime.Now };
+    var result = rentalManager.Add(rental);
+    Console.WriteLine(result.Message);
 }
