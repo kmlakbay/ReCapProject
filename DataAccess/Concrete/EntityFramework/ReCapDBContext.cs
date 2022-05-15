@@ -13,7 +13,14 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"server=DESKTOP-KPP5P5P\SQLEXPRESS;Database=ReCapDB;Trusted_Connection=true");
+            if (System.Environment.MachineName == "NT00783")
+            {
+                optionsBuilder.UseSqlServer(@"server=NT00783;Database=ReCapDB;Trusted_Connection=true");
+            }
+            else
+            {
+                optionsBuilder.UseSqlServer(@"server=DESKTOP-KPP5P5P\SQLEXPRESS;Database=ReCapDB;Trusted_Connection=true");
+            }
         }
         public DbSet<Car> Cars { get; set; }
         public DbSet<Brand> Brands { get; set; }
